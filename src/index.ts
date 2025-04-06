@@ -9,7 +9,15 @@ const app: Express = express();
 const port = process.env.PORT || 3001;
 
 // Use only one MongoDB connection - the local one
-mongoose.connect(process.env.MONGO_URI)
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/finance-tracker";
+mongoose.connect(mongoURI)
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("❌ Failed to connect to MongoDB:", err);
+  });
+
 
   .then(() => {
     console.log("Connected to local MongoDB");
